@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
                 protocol: "https",
                 hostname: "media.dodostatic.net",
                 port: "",
-                pathname: "/image/r:292x292/**",
+                pathname: "/image/r:**/**",
                 search: "",
             },
         ],
