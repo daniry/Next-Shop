@@ -3,12 +3,17 @@ import { Title, FilterCheckbox } from "@/components/shared";
 import { Input } from "../ui";
 import { RangeSlider } from "./rangeSlider";
 import { CheckboxFiltersGroup } from "./checkboxFiltersGroup";
+import { useFilterIngredients } from "@/hooks/useFilterIngredients";
 
 interface Props {
     className?: string;
 }
 
 export const Filters: React.FC<Props> = ({ className }) => {
+    const { ingredients } = useFilterIngredients()
+
+    const items = ingredients.map((item) => ({value: String(item.id), text: item.name }))
+
     const data_ingredients = [
         {
             text: "Сырный соус",
@@ -81,7 +86,7 @@ export const Filters: React.FC<Props> = ({ className }) => {
             </div>
 
             {/* Bottom checkboxes */}
-            <CheckboxFiltersGroup title="Ингредиенты" className="mt-5" limit={6} defaultItems={data_ingredients.slice(0, 6)} items={data_ingredients} />
+            <CheckboxFiltersGroup title="Ингредиенты" className="mt-5" limit={6} defaultItems={items.slice(0, 6)} items={items} />
         </div>
     );
 };
