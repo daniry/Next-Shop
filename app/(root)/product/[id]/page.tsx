@@ -1,5 +1,5 @@
 import { Container, GroupVariants, ProductImage, Title } from "@/components/shared";
-import { prisma } from "@/prisma/prismaClient";
+import { prisma } from "@/prisma/prisma-client";
 import { notFound } from "next/navigation";
 
 export default async function ProductPage({ params }: { params: { id: string } }) {
@@ -32,7 +32,7 @@ export default async function ProductPage({ params }: { params: { id: string } }
                     <p className="text-gray-400">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni, vel!</p>
 
                     <GroupVariants
-                        value="2"
+                        value="1"
                         items={[
                             {
                                 name: "Small",

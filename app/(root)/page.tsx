@@ -1,7 +1,8 @@
 import { Container, Title, TopBar, Filters } from "@/components/shared";
 // import { ProductCard } from "@/components/shared/productCard";
 import { ProductsGroupList } from "@/components/shared/productsGroupList";
-import { prisma } from "@/prisma/prismaClient";
+import { prisma } from "@/prisma/prisma-client";
+import { Api } from "@/services/apiClient";
 
 // const productsPizza = [
 //     {
@@ -100,16 +101,17 @@ import { prisma } from "@/prisma/prismaClient";
 // ];
 
 export default async function Home() {
-    const categories = await prisma.category.findMany({
-        include: {
-            products: {
-                include: {
-                    ingredients: true,
-                    items: true,
-                },
-            },
-        },
-    });
+    const categories = await Api.categories.getAll();
+    // const categories = await prisma.category.findMany({
+    //     include: {
+    //         products: {
+    //             include: {
+    //                 ingredients: true,
+    //                 items: true,
+    //             },
+    //         },
+    //     },
+    // });
     return (
         <>
             <Container className="mt-10">
