@@ -7,3 +7,5 @@ export { TopBar } from "./topBar";
 export { Filters } from "./filters";
 export { FilterCheckbox } from "./filterCheckbox";
 export { SearchInput } from "./searchInput";
+export { ProductImage } from "./productImage";
+export { GroupVariants } from "./groupVariants";

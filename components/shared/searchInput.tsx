@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import { Search } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useClickAway, useDebounce } from "react-use";
 import Image from "next/image";
 import { Api } from "@/services/apiClient";
