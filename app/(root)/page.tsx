@@ -1,8 +1,8 @@
-import { Container, Title, TopBar, Filters } from "@/components/shared";
+import { Container, Title, TopBar, Filters } from "@/shared/components/shared";
 // import { ProductCard } from "@/components/shared/productCard";
-import { ProductsGroupList } from "@/components/shared/productsGroupList";
+import { ProductsGroupList } from "@/shared/components/shared/productsGroupList";
 import { prisma } from "@/prisma/prisma-client";
-import { Api } from "@/services/apiClient";
+import { Api } from "@/shared/services/apiClient";
 
 // const productsPizza = [
 //     {
