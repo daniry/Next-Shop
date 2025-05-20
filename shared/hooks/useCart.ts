@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect } from "react";
 import { useCartStore } from "../store/cart";
 import { CartStateItem } from "../lib/getCartDetails";

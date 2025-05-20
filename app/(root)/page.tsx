@@ -1,104 +1,8 @@
 import { Container, Title, TopBar, Filters } from "@/shared/components/shared";
 // import { ProductCard } from "@/components/shared/productCard";
 import { ProductsGroupList } from "@/shared/components/shared/productsGroupList";
-import { prisma } from "@/prisma/prisma-client";
 import { Api } from "@/shared/services/apiClient";
-
-// const productsPizza = [
-//     {
-//         id: 0,
-//         name: "Чизбургер пицца",
-//         items: [{ price: 550 }],
-//         imageUrl: "https://media.dodostatic.net/image/r:292x292/11ef9050501f3fa690a64053f5f07626.avif",
-//         price: 550,
-//     },
-//     {
-//         id: 1,
-//         name: "Мясной микс с говядиной и колбасками ",
-//         items: [{ price: 650 }],
-//         imageUrl: "https://media.dodostatic.net/image/r:292x292/11ef9c1daafcf3529a62947b9522a8fe.avif",
-//         price: 550,
-//     },
-//     {
-//         id: 2,
-//         name: "Бефстроганов ",
-//         items: [{ price: 590 }],
-//         imageUrl: "https://media.dodostatic.net/image/r:292x292/11eef9e43dc39c94aa5765dbf1c97100.avif",
-//         price: 550,
-//     },
-//     {
-//         id: 3,
-//         name: "Чизбургер пицца",
-//         items: [{ price: 550 }],
-//         imageUrl: "https://media.dodostatic.net/image/r:292x292/11ef9050501f3fa690a64053f5f07626.avif",
-//         price: 550,
-//     },
-//     {
-//         id: 4,
-//         name: "Мясной микс с говядиной и колбасками ",
-//         items: [{ price: 650 }],
-//         imageUrl: "https://media.dodostatic.net/image/r:292x292/11ef9c1daafcf3529a62947b9522a8fe.avif",
-//         price: 550,
-//     },
-//     {
-//         id: 5,
-//         name: "Бефстроганов ",
-//         items: [{ price: 590 }],
-//         imageUrl: "https://media.dodostatic.net/image/r:292x292/11eef9e43dc39c94aa5765dbf1c97100.avif",
-//         price: 550,
-//     },
-//     {
-//         id: 6,
-//         name: "Чизбургер пицца",
-//         items: [{ price: 550 }],
-//         imageUrl: "https://media.dodostatic.net/image/r:292x292/11ef9050501f3fa690a64053f5f07626.avif",
-//         price: 550,
-//     },
-//     {
-//         id: 7,
-//         name: "Мясной микс с говядиной и колбасками ",
-//         items: [{ price: 650 }],
-//         imageUrl: "https://media.dodostatic.net/image/r:292x292/11ef9c1daafcf3529a62947b9522a8fe.avif",
-//         price: 550,
-//     },
-//     {
-//         id: 8,
-//         name: "Бефстроганов ",
-//         items: [{ price: 590 }],
-//         imageUrl: "https://media.dodostatic.net/image/r:292x292/11eef9e43dc39c94aa5765dbf1c97100.avif",
-//         price: 550,
-//     },
-// ];
-// const productsBreakfast = [
-//     {
-//         id: 0,
-//         name: "Омлет с пепперони в пите ",
-//         items: [{ price: 350 }],
-//         imageUrl: "https://media.dodostatic.net/image/r:292x292/0194b1fadc94784c9f8454c2c68af191.avif",
-//         price: 350,
-//     },
-//     {
-//         id: 1,
-//         name: "Дэнвич с говядиной ",
-//         items: [{ price: 250 }],
-//         imageUrl: "https://media.dodostatic.net/image/r:292x292/11ef023c30bf9e6ba72d6abb6375a56d.avif",
-//         price: 250,
-//     },
-//     {
-//         id: 2,
-//         name: "Бефстроганов",
-//         items: [{ price: 590 }],
-//         imageUrl: "https://media.dodostatic.net/image/r:292x292/11eef9e43dc39c94aa5765dbf1c97100.avif",
-//         price: 550,
-//     },
-//     {
-//         id: 3,
-//         name: "Чизбургер пицца",
-//         items: [{ price: 550 }],
-//         imageUrl: "https://media.dodostatic.net/image/r:292x292/11ef9050501f3fa690a64053f5f07626.avif",
-//         price: 550,
-//     },
-// ];
+import { Suspense } from "react";
 
 export default async function Home() {
     const categories = await Api.categories.getAll();
@@ -124,7 +28,9 @@ export default async function Home() {
                 <div className="flex gap-[80px]">
                     {/* Filters */}
                     <div className="w-[250px]">
-                        <Filters />
+                        <Suspense>
+                            <Filters />
+                        </Suspense>
                     </div>
 
                     {/* Cards list*/}

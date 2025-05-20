@@ -1,19 +1,17 @@
 import { cn } from "@/shared/lib/utils";
-import { Ingredient, ProductItem } from "@prisma/client";
-import { ProductImage } from "./productImage";
 import { Title } from "./title";
 import { Button } from "../ui";
 
 interface Props {
     imageUrl: string;
     name: string;
-    onSubmit?: (itemId: number, ingredients: number[]) => void;
+    price: number;
+    loading?: boolean;
+    onSubmit?: VoidFunction;
     className?: string;
 }
 
-export const ChooseProductForm: React.FC<Props> = ({ name, imageUrl, onSubmit, className }) => {
-    const textDetaills = "30 см, традиционное тесто";
-    const totalPrice = 350;
+export const ChooseProductForm: React.FC<Props> = ({ name, loading, imageUrl, price, onSubmit, className }) => {
     return (
         <div className={cn(className, "flex flex-1")}>
             <div className="flex items-center justify-center flex-1 relative w-full">
@@ -22,9 +20,10 @@ export const ChooseProductForm: React.FC<Props> = ({ name, imageUrl, onSubmit, c
 
             <div className="w-[490px] bg-[#f8f6f6] p-7">
                 <Title text={name} size="md" className="font-extrabold mb-1" />
-                <p className="text-gray-400">{textDetaills}</p>
 
-                <Button className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10">Добавить в корзину за {totalPrice} ₽</Button>
+                <Button loading={loading} onClick={() => onSubmit?.()} className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10">
+                    Добавить в корзину за {price} ₽
+                </Button>
             </div>
         </div>
     );

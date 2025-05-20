@@ -1,7 +1,7 @@
-import { Category } from "@prisma/client";
 import { axiosInstance } from "./axiosInstance";
 import { ApiRoutes } from "./constants";
+import { CategoryDTO } from "./dto/category.dto";
 
-export const getAll = async (): Promise<Category[]> => {
-    return (await axiosInstance.get<Category[]>(ApiRoutes.CATEGORIES)).data;
+export const getAll = async (): Promise<CategoryDTO[]> => {
+    return (await axiosInstance.get<CategoryDTO[]>(ApiRoutes.CATEGORIES)).data;
 };
