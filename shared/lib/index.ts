@@ -6,3 +6,4 @@ export { getCartDetails } from "./getCartDetails";
 export { calcCartItemTotalPrice } from "./calcCartItemTotalPrice";
 export { updateCartTotalAmount } from "./updateCartTotalAmount";
 export { findOrCreateCart } from "./findOrCreateCart";
+export { findPizzas } from "./findPizzas";
