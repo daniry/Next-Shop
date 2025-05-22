@@ -8,10 +8,10 @@ import { ChooseProductForm } from "./chooseProductForm";
 
 interface Props {
     product: ProductWithRelations;
-    _onSubmit?: VoidFunction;
+    onSubmit?: VoidFunction;
 }
 
-export const ProductForm: React.FC<Props> = ({ product, _onSubmit }) => {
+export const ProductForm: React.FC<Props> = ({ product, onSubmit: _onSubmit }) => {
     const { addCartItem, loading } = useCart();
 
     const firstItem = product.items[0];

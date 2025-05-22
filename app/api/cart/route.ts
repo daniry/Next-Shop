@@ -6,14 +6,19 @@ import { CreateCartItemValues } from "@/shared/services/dto/cart.dto";
 
 export async function GET(req: NextRequest) {
     try {
-        const userId = 1;
         const token = req.cookies.get("cartToken")?.value;
 
-        if (!token) return NextResponse.json({ totalAmount: 0, items: [], error: "Token not found" }, { status: 400 });
+        if (!token) {
+            return NextResponse.json({ totalAmount: 0, items: [] });
+        }
 
         const userCart = await prisma.cart.findFirst({
             where: {
-                OR: [{ token }, { userId }],
+                OR: [
+                    {
+                        token,
+                    },
+                ],
             },
             include: {
                 items: {
@@ -42,27 +47,36 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
     try {
         let token = req.cookies.get("cartToken")?.value;
-        // Если токена нет, то создаем его
-        if (!token) token = crypto.randomUUID();
+
+        if (!token) {
+            token = crypto.randomUUID();
+        }
 
         const userCart = await findOrCreateCart(token);
 
         const data = (await req.json()) as CreateCartItemValues;
 
-        // Находим товар в корзине
-        const findCartItem = await prisma.cartItem.findFirst({
+        // 1. Находим ВСЕ товары с таким же productItemId
+        const cartItems = await prisma.cartItem.findMany({
             where: {
                 cartId: userCart.id,
                 productItemId: data.productItemId,
-                ingredients: {
-                    every: {
-                        id: { in: data.ingredients },
-                    },
-                },
+            },
+            include: {
+                ingredients: true, // Загружаем ингредиенты
             },
         });
 
-        // Если товар был найден, делаем +1, иначе создаем новый экземпляр cartItem
+        // 2. Ищем товар с ТОЧНЫМ совпадением ингредиентов
+        const findCartItem = cartItems.find((item) => {
+            const itemIngredientIds = item.ingredients.map((ing) => ing.id).sort();
+            const dataIngredientIds = (data.ingredients || []).sort();
+
+            // Проверяем, что массивы идентичны (одинаковые ингредиенты)
+            return itemIngredientIds.length === dataIngredientIds.length && itemIngredientIds.every((id, index) => id === dataIngredientIds[index]);
+        });
+
+        //  Если нашли – увеличиваем quantity, иначе создаем новый
         if (findCartItem) {
             await prisma.cartItem.update({
                 where: {
@@ -77,6 +91,7 @@ export async function POST(req: NextRequest) {
                 data: {
                     cartId: userCart.id,
                     productItemId: data.productItemId,
+                    quantity: 1,
                     ingredients: { connect: data.ingredients?.map((id) => ({ id })) },
                 },
             });
@@ -85,7 +100,7 @@ export async function POST(req: NextRequest) {
         const updatedUserCart = await updateCartTotalAmount(token);
 
         const resp = NextResponse.json(updatedUserCart);
-        if (!token) resp.cookies.set("cartToken", token);
+        resp.cookies.set("cartToken", token);
         return resp;
     } catch (error) {
         console.log("[CART_POST] Server error", error);
