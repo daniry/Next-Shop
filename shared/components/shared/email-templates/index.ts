@@ -1,0 +1,1 @@
+export { PayOrderTemplate } from "./payOrder";

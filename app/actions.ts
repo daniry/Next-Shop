@@ -1,7 +1,9 @@
 "use server";
 
 import { prisma } from "@/prisma/prisma-client";
+import { PayOrderTemplate } from "@/shared/components/shared/email-templates";
 import { CheckoutFormValues } from "@/shared/constants/checkoutFormSchema";
+import { createPayment, sendEmail } from "@/shared/lib";
 import { OrderStatus } from "@prisma/client";
 import { cookies } from "next/headers";
 
@@ -75,6 +77,23 @@ export async function createOrder(data: CheckoutFormValues) {
                 cartId: userCart.id,
             },
         });
+
+        // TODO: сделать создание ссылки опалыт
+        const paymentData = await createPayment({
+            amount: order.totalAmount,
+            orderId: order.id,
+            description: "Оплата заказа №" + order.id,
+        });
+
+        if (!paymentData) {
+            throw new Error("Payment data not found");
+        }
+
+        await sendEmail(
+            data.email,
+            "Pizza.com | Оплатите заказ №" + order.id,
+            PayOrderTemplate({ orderId: order.id, totalAmount: order.totalAmount, paymentUrl: "https://resend.com/docs/send-with-nextjs" })
+        );
     } catch (error) {
         console.log("[CreateOrder] Server error", error);
     }
