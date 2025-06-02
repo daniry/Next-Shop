@@ -78,7 +78,7 @@ export async function createOrder(data: CheckoutFormValues) {
             },
         });
 
-        // TODO: сделать создание ссылки опалыт
+        // Создание ссылки оплат
         const paymentData = await createPayment({
             amount: order.totalAmount,
             orderId: order.id,
@@ -89,11 +89,20 @@ export async function createOrder(data: CheckoutFormValues) {
             throw new Error("Payment data not found");
         }
 
-        await sendEmail(
-            data.email,
-            "Pizza.com | Оплатите заказ №" + order.id,
-            PayOrderTemplate({ orderId: order.id, totalAmount: order.totalAmount, paymentUrl: "https://resend.com/docs/send-with-nextjs" })
-        );
+        await prisma.order.update({
+            where: {
+                id: order.id,
+            },
+            data: {
+                paymentId: paymentData.id,
+            },
+        });
+
+        const paymentUrl = paymentData.confirmation.confirmation_url;
+
+        await sendEmail(data.email, "Pizza.com | Оплатите заказ №" + order.id, PayOrderTemplate({ orderId: order.id, totalAmount: order.totalAmount, paymentUrl }));
+
+        return paymentUrl;
     } catch (error) {
         console.log("[CreateOrder] Server error", error);
     }
