@@ -18,4 +18,5 @@ export { ProductForm } from "./productForm";
 export { WhiteBlock } from "./whiteBlock";
 export { ErrorText } from "./errorText";
 export { ClearButton } from "./clearButton";
+export { ProfileButton } from "./profileButton";
 export * from "./modals";
