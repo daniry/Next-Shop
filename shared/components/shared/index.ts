@@ -19,4 +19,5 @@ export { WhiteBlock } from "./whiteBlock";
 export { ErrorText } from "./errorText";
 export { ClearButton } from "./clearButton";
 export { ProfileButton } from "./profileButton";
+export { InfoBlock } from "./infoBlock";
 export * from "./modals";
