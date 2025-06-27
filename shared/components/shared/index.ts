@@ -20,4 +20,5 @@ export { ErrorText } from "./errorText";
 export { ClearButton } from "./clearButton";
 export { ProfileButton } from "./profileButton";
 export { InfoBlock } from "./infoBlock";
+export { Stories } from "./stories";
 export * from "./modals";
