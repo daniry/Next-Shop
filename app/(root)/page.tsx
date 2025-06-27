@@ -4,8 +4,9 @@ import { findPizzas } from "@/shared/lib";
 import { GetSearchParams } from "@/shared/lib/findPizzas";
 import { Suspense } from "react";
 
-export default async function Home({ searchParams }: { searchParams: GetSearchParams }) {
-    const categories = await findPizzas(searchParams);
+export default async function Home({ searchParams }: { searchParams: Promise<GetSearchParams> }) {
+    const resolvedSearchParams = await searchParams;
+    const categories = await findPizzas(resolvedSearchParams);
     return (
         <>
             <Container className="mt-10">
