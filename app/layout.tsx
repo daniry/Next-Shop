@@ -16,7 +16,7 @@ export default function RootLayout({
     return (
         <html lang="ru">
             <head>
-                <link data-rh="true" rel="icon" href="/logo.pngf" />
+                <link data-rh="true" rel="icon" href="/logo.png" />
             </head>
             <body className={`${nunito.variable} antialiased`}>
                 <Providers>{children}</Providers>

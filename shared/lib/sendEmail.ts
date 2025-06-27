@@ -2,6 +2,9 @@ import { ReactNode } from "react";
 import { Resend } from "resend";
 
 export const sendEmail = async (to: string, subject: string, template: ReactNode | Promise<ReactNode>) => {
+    if (!process.env.RESEND_API_KEY) {
+        return;
+    }
     const resend = new Resend(process.env.RESEND_API_KEY);
 
     const { data, error } = await resend.emails.send({

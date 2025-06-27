@@ -1,6 +1,7 @@
 "use client";
 
-import { Dialog, DialogContent } from "@/shared/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/shared/components/ui/dialog";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Button } from "@/shared/components/ui";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
@@ -24,6 +25,9 @@ export const AuthModal: React.FC<Props> = ({ open, onClose }) => {
     return (
         <Dialog open={open} onOpenChange={handleClose}>
             <DialogContent className="w-[450px] bg-white p-10">
+                <DialogTitle asChild>
+                    <VisuallyHidden>{type === "login" ? "Login" : "Register"}</VisuallyHidden>
+                </DialogTitle>
                 {type === "login" ? <LoginForm onClose={handleClose} /> : <RegisterForm />}
                 <hr />
                 <div className="flex gap-2">

@@ -162,8 +162,10 @@ export async function registerUser(body: Prisma.UserCreateInput) {
             },
         });
 
+        // Генерируем рандомный код верификации
         const code = Math.floor(100000 + Math.random() * 900000).toString();
 
+        // Сохраняем код в бд
         await prisma.verificationCode.create({
             data: {
                 code,
@@ -171,6 +173,7 @@ export async function registerUser(body: Prisma.UserCreateInput) {
             },
         });
 
+        // Отправляем письмо
         await sendEmail(
             createdUser.email,
             "Next Pizza / 📝 Подтверждение регистрации",
